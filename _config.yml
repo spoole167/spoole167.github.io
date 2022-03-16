@@ -1,0 +1,16 @@
+title: No Regressions
+email: editor@devsectimes.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Yep its a github pages website
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: spoole167
+github_username:  spoole167
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+
+remote_theme: mkropat/jekyll-theme-antisocial
