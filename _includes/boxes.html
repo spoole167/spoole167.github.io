@@ -1,0 +1,23 @@
+<section class="ftco-section ftco-no-pb" id="events-section">
+    <div class="container">
+        <div class="row justify-content-center pb-5">
+            <div class="col-md-10 heading-section text-center ftco-animate">
+                <h1 class="big big-2">Events</h1>
+                <h2 class="mb-4">Events</h2>
+                <p>User Groups, Conferences just gone our about to occur</p>
+            </div>
+        </div>
+        <div class="row">
+           
+                
+                {% assign sorted = site.events | sort: 'date'   %}
+               {% for event in sorted limit: 20 %}
+                    <div class="col-md-6">
+                  {% include box.md date=event.date ref=event.country title=event.title   %}
+                    </div>
+                {% endfor %}
+            
+        </div>
+      
+    </div>
+</section>
