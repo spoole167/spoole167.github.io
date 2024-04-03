@@ -45,3 +45,5 @@ collections:
       permalink: /:collection/:name
 
 collections_dir: collections
+
+

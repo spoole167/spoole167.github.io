@@ -1,5 +1,7 @@
 ---
 date: 21/03/2024
+enddate: 26/03/2024
+travel_time: [ 20/03/2024]
 country: Singapore
 title: DevOpsDays Singapore
 layout: event_detail

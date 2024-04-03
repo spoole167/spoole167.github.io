@@ -1,5 +1,6 @@
 ---
 date: 13/05/2024
+enddate: 17/05/2024
 city: Cologne
 country: Germany
 title: JCon Europe

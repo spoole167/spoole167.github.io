@@ -1,5 +1,6 @@
 ---
 date: 8/05/2024
+enddate: 11/05/2024
 city: London
 country: UK
 title: Devoxx UK

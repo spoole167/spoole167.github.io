@@ -1,5 +1,6 @@
 ---
-date: 23/05/2024
+date: 14/06/2024
+travel_time: [ 13/06/2024 , 15/06/2024 ]
 city: Utrecht
 country: Netherlands
 title: JSpring

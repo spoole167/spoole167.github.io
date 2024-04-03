@@ -1,8 +1,8 @@
 ---
-date: 25/11/2024
+date: 24/06/2024
 city: London
 country: UK
 layout: event_detail
-title: London Java Community Winter UnConf
+title: London Java Community Summer UnConf
 url: https://www.londonjavacommunity.co.uk/
 ---

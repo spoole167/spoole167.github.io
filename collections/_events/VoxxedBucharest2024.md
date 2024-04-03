@@ -1,5 +1,6 @@
 ---
 date: 27/03/2024
+enddate: 30/03/2024
 city: Bucharest
 country: Romania
 title: Voxxed Bucharest

@@ -1,8 +1,9 @@
 ---
-date: 13/06/2024
-city: Utrecht
-country: Netherlands
-title: JSpring
+date: 29/05/2024
+enddate: 31/05/2024
+city: Bucharest
+country: Romania
+title: DevTalks Romania
 layout: event_detail
-url: https://jspring.nl/
+url: https://www.devtalks.ro/
 ---
