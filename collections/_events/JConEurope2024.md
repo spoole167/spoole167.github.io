@@ -1,4 +1,5 @@
 ---
+travel_time: [ 12/05/2024 ]
 date: 13/05/2024
 enddate: 17/05/2024
 city: Cologne
