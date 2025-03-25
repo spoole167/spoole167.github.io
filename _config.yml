@@ -34,12 +34,18 @@ theme: minima
 plugins:
   - jekyll-feed
 
+
+
 collections:
     presentations:
       output: true
       sort_by: title
       permalink: /:collection/:name
     events:
+      output: true
+      sort_by: date
+      permalink: /:collection/:name
+    publications:
       output: true
       sort_by: date
       permalink: /:collection/:name

@@ -2,6 +2,7 @@
 title: AI Showdown, The Good, The Bad and the Glitchy
 conf: Voxxed Bucharest
 date: 28/03/2024
+tags: [AI]
 id: 1
 ---
 Nowadays, with bad actors trying to compromise open-source projects en mass, it’s important to put aside the excitement about AI just long enough to make the right decisions. Introducing AI into your CI/CD system might sound fun but there are reasons why making the wrong choices will bite you and your organisation.

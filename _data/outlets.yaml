@@ -1,0 +1,23 @@
+- tag: javapro
+  name: JavaPro
+  logo: javapro.png
+  icon: analysis
+  website: https://javapro.io/author/stevepoole/
+
+- tag: foojay
+  name: Foojay
+  logo: foojay.png
+  icon: flasks
+  website: https://foojay.io/today/author/steve-poole/
+
+- tag: devmio
+  name: devmio
+  logo: devmio.jpeg
+  icon: ideas
+  website: https://devm.io/experts/steve-poole
+
+- tag: youtube
+  name: YouTube
+  logo: youtube.png
+  icon: film
+  website: https://youtube.com/playlist?list=PL8x_RekIw2GwwOgrtQv0jD57EgUWESjuZ&si=fbwE-zmBHAceUpcR
