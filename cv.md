@@ -16,6 +16,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 * Providing technical articles, creating videos, and running workshops for companies in the software supply chain security, AI, and cybercrime space.
 * Available for collaborations, engagements, technical writing etc.
+* Host of the 10xInsights.dev podcast 
 
 ### Skills
 
