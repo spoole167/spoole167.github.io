@@ -1,4 +1,5 @@
 ---
+layout: plain
 permalink: /cv
 ---
 ## Steve Poole
