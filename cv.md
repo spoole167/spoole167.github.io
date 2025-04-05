@@ -34,19 +34,20 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 ### Experience
 
-**Director of Developer Advocacy** | Sonatype | June 2023 – June 2024
-
-* Bootstrapped and led external developer relations, liaising with marketing and product teams to provide technical, marketing, and bizdev feedback.
-* Supported sales in customer engagements with a focus on secure software supply chains and developer education.
-* Organized and led multi-vendor workshops on software supply chain security and cybercrime at community events and customer locations.
-* Engaged with US Government and Open Source projects such as OpenSSF on software supply chain security.
-
-**Developer Advocate for Secure Software Supply Chains** | Sonatype | 2021 – 2023
+**Director of Developer Advocacy** | Sonatype | June 2021 – June 2024
 
 * Bootstrapped the Developer Relations team, growing it to 8 members and enhancing Sonatype's visibility within developer communities.
 * Developed and delivered presentations, workshops, and content focused on secure software supply chains.
 * Helped product teams expand their portfolios, including the first steps with AI as a security tool.
 * Joined OWASP and OpenSSF, contributing to industry-wide security initiatives.
+* Liaising with marketing and product teams to provide technical, marketing, and bizdev feedback.
+* Supported sales in customer engagements with a focus on secure software supply chains and developer education.
+* Organized and led multi-vendor workshops on software supply chain security and cybercrime at community events and customer locations.
+* Engaged with US Government and Open Source projects such as OpenSSF on software supply chain security.
+
+**Quarkus Community Manager | Red Hat | 2020 - 2021 
+* Created Quarkus RoadShow outreach program with usergroups worldwide signed up to host workshops and sessions
+* Secondary focus on Security for developers – many events/talks on helping developers work smarter with security matters.
 
 **WW Developer Advocate for Cloud Native Runtimes** | IBM | 2018 – 2020
 
