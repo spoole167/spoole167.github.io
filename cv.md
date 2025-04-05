@@ -12,8 +12,9 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 ### Current Employment
 
-**Independent Consultant and Freelance Technical Writer, Author, and Workshop Facilitator** | 2024 – Present
+**Fractional, Independent Consultant and Freelance Technical Writer, Author, and Workshop Facilitator** | 2024 – Present
 
+* Focusing on providing developers and dev organisations practical help with using AI within their organisation while understanding the technical, security and legal implications and consequences.
 * Providing technical articles, creating videos, and running workshops for companies in the software supply chain security, AI, and cybercrime space.
 * Available for collaborations, engagements, technical writing etc.
 * Host of the 10xInsights.dev podcast 
