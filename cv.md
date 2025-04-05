@@ -45,7 +45,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Organized and led multi-vendor workshops on software supply chain security and cybercrime at community events and customer locations.
 * Engaged with US Government and Open Source projects such as OpenSSF on software supply chain security.
 
-**Quarkus Community Manager | Red Hat | 2020 - 2021 
+**Quarkus Community Manager** | Red Hat | 2020 - 2021 
 * Created Quarkus RoadShow outreach program with usergroups worldwide signed up to host workshops and sessions
 * Secondary focus on Security for developers – many events/talks on helping developers work smarter with security matters.
 
