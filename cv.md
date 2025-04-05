@@ -1,3 +1,6 @@
+---
+permalink: /cv
+---
 ## Steve Poole
 
 **Email:** spoole167@googlemail.com | **Phone:** +44 07767425931 | **LinkedIn:** [https://www.linkedin.com/in/noregressions](https://www.linkedin.com/in/noregressions) | **Location:** United Kingdom
