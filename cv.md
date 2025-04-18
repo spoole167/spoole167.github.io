@@ -179,3 +179,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Runs LJC yearly UnConference for Java community.
 
 {% endcapture %}
+
+{% assign l = left | markdownify %}
+{% assign r = right | markdownify %}
+{% include two_column.html left=l right=r %}
