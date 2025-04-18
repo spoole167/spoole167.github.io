@@ -1,7 +1,10 @@
 ---
-layout: plain
+layout: columns
 permalink: /cv
 ---
+
+{% capture left %}
+
 ## Steve Poole
 
 **Email:** spoole167@googlemail.com | **Phone:** +44 07767425931 | **LinkedIn:** [https://www.linkedin.com/in/noregressions](https://www.linkedin.com/in/noregressions) | **Location:** United Kingdom
@@ -91,6 +94,9 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Produced the first JCK compliant 64bit JDK.
 * Led the IBM JDK teams to deliver Java on 22 platforms for 10 releases.
 
+{% endcapture %}
+{% capture right %}
+
 ### Publications & Speaking Engagements
 
 * **Books:**
@@ -171,3 +177,5 @@ Accomplished technical leader and developer advocate with over three decades of 
 * OpenJDK contributor.
 * AspectJ project member.
 * Runs LJC yearly UnConference for Java community.
+
+{% endcapture %}
