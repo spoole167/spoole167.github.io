@@ -146,6 +146,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 ### Professional Affiliations
 
+* Java Champion
 * Member, OWASP.
 * Member, OpenSSF.
 * Specification Representative - JCP.
@@ -158,6 +159,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 ### Awards and Recognitions
 
+* Java Champion
 * IBM, various internal recognitions and awards.
 * JavaOne, Java Rockstar award, 2015.
 * Patent, US-7853633-B2, System and method for generating random permutations of elements, 2010.
