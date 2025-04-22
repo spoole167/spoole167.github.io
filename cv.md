@@ -24,6 +24,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 
 ### Skills
 
+* **Java Champion: ** Recognised community leader in the Java ecosystem
 * **Technical Writing & Authoring:** White papers, articles, blog posts, and books on software supply chain security, AI, and cybercrime.
 * **Software Supply Chain Security:** Expert in educating developers on security matters.
 * **AI:** Experienced with AI concepts especially around legislation, dev tools and as a component of the software supply chain.
