@@ -9682,3 +9682,10 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+
+.cv h3 { color:black; }
+.cv strong {color:black;}
+.cv td {color:black;}
+.cv p {color:black;}
+.cv li {color:black;}
