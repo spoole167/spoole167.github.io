@@ -32,7 +32,7 @@ Accomplished technical leader and developer advocate with over three decades of 
 * **DevOps Leadership:** Led large teams and consulted on DevOps adoption, security, and cybercrime.
 * **Engineering Leadership:** Extensive experience from operating systems to JVMs to AI.
 * **Cloud-Native Runtimes:** Expertise in cloud-native technologies.
-* **Open Source Contribution:** Pastcommitter at Apache, Eclipse, and OpenJDK projects.
+* **Open Source Contribution:** Past committer at Apache, Eclipse, and OpenJDK projects.
 * **Public Speaking & Workshops:** Regular presenter at international conferences on technical topics.
 * **Developer Advocacy & Marketing:** Experienced in creating and leading developer marketing/advocacy programs.
 * **Technical Business Development:** Comfortable with executive engagement and business scale.
