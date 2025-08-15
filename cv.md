@@ -11,10 +11,13 @@ permalink: /cv
 
 ### Summary
 
-Accomplished technical leader and developer advocate with over three decades of experience in software engineering, DevOps, developer advocacy, and security, especially cybercrime and software supply chains. Recognized international public speaker and author on software supply chain security, AI, and cybercrime legislation, with a deep background in engineering and DevOps leadership. Proven track record in driving product innovation, improving development processes, and fostering vibrant open-source communities.
+Accomplished technical leader and developer advocate with over three decades of experience in software engineering, LJC Community Director, DevOps, developer advocacy, and security, especially cybercrime and software supply chains. Recognized international public speaker and author on software supply chain security, AI, and cybercrime legislation, with a deep background in engineering and DevOps leadership. Proven track record in driving product innovation, improving development processes, and fostering vibrant open-source communities.
 
 ### Current Employment
 
+**London Java Community Director** | 2025 - Present
+* Supporting and organising LJC events, sponsorships and speakers
+  
 **Fractional, Independent Consultant and Freelance Technical Writer, Author, and Workshop Facilitator** | 2024 – Present
 
 * Focusing on providing developers and dev organisations practical help with using AI within their organisation while understanding the technical, security and legal implications and consequences.
