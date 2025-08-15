@@ -171,7 +171,6 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Patent, US-7853633-B2, System and method for generating random permutations of elements, 2010.
 * Patent, US-6314445-B1, Native function calling, 1998.
 * Recognised as Software Supply Chain security expert educating developers on security matters.
-* London Java Community Leader.
 * Program Committee member for Devoxx UK and JCON.
 * JSR Spec Lead for JSR326.
 * Apache Kato project lead.
@@ -184,7 +183,6 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Joint Project lead for OpenJDK PowerPC/AIX Port Project.
 * OpenJDK contributor.
 * AspectJ project member.
-* Runs LJC yearly UnConference for Java community.
 
 {% endcapture %}
 
