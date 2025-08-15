@@ -181,8 +181,6 @@ Accomplished technical leader and developer advocate with over three decades of 
 * Spec representative for IBM on Java SE JSRs for 1.4,5,6.
 * Joint Project lead for OpenJDK s390x Port Project.
 * Joint Project lead for OpenJDK PowerPC/AIX Port Project.
-* OpenJDK contributor.
-* AspectJ project member.
 
 {% endcapture %}
 
