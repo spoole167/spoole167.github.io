@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot 2.7 End of Life | Never-Ending Support | HeroDevs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --hero-gradient-start: #667EEA;
+            --hero-gradient-end: #764BA2;
+            --accent-purple: #667EEA;
+            --accent-pink: #F093FB;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F1F5F9;
+            --text-muted: #94A3B8;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --critical: #DC2626;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-light);
+            background: var(--dark-bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15));
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 16px 0;
+            text-align: center;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { background: linear-gradient(90deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15)); }
+            50% { background: linear-gradient(90deg, rgba(239, 68, 68, 0.25), rgba(220, 38, 38, 0.25)); }
+        }
+        
+        .alert-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .alert-content strong {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FCA5A5;
+        }
+        
+        .counter-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--error);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Header */
+        header {
+            background: var(--dark-bg);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 24px;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e1b4b 50%, var(--dark-bg) 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.2), transparent 70%);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-40px, 40px); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .eol-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+            color: #FCA5A5;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--error);
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+        
+        h1 .eol-date {
+            background: linear-gradient(135deg, var(--error), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+            padding: 48px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--error);
+            display: block;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            color: white;
+            padding: 18px 36px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+            padding: 18px 36px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        /* Risk Calculator */
+        .risk-calculator {
+            padding: 100px 0;
+            background: var(--dark-card);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-label {
+            color: var(--accent-purple);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        h2 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .calculator-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 48px;
+        }
+        
+        .calculator-input {
+            margin-bottom: 32px;
+        }
+        
+        .calculator-input label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        
+        .calculator-input select {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+        
+        .calculator-input select:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .calculator-results {
+            margin-top: 40px;
+            padding: 32px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .calculator-results.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .result-content {
+            flex: 1;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+        }
+        
+        .result-value.critical {
+            color: var(--error);
+        }
+        
+        .with-nes {
+            margin-top: 32px;
+            padding: 24px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+        }
+        
+        .with-nes h4 {
+            color: var(--success);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .with-nes ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .with-nes li {
+            padding: 8px 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* CVE Timeline */
+        .cve-timeline {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+        
+        .timeline-container {
+            max-width: 900px;
+            margin: 60px auto 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 48px;
+            bottom: -40px;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.5), transparent);
+        }
+        
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        
+        .timeline-date {
+            min-width: 120px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding-top: 8px;
+        }
+        
+        .timeline-marker {
+            min-width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--error), var(--warning));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .timeline-content h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        
+        .cve-severity {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 12px;
+        }
+        
+        .cve-severity.critical {
+            background: rgba(220, 38, 38, 0.2);
+            color: #FCA5A5;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+        }
+        
+        .cve-severity.high {
+            background: rgba(245, 158, 11, 0.2);
+            color: #FCD34D;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .timeline-content p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Reality Check */
+        .reality-check {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--dark-card), var(--dark-bg));
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .comparison-card {
+            background: rgba(255,255,255,0.03);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .comparison-card.upgrade {
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        
+        .comparison-card.nes {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .comparison-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+        
+        .comparison-card.upgrade h3 {
+            color: var(--warning);
+        }
+        
+        .comparison-card.nes h3 {
+            color: var(--success);
+        }
+        
+        .comparison-list {
+            list-style: none;
+        }
+        
+        .comparison-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text-muted);
+        }
+        
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .comparison-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        /* Compliance Checklist */
+        .compliance-section {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+        
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .compliance-card {
+            background: rgba(255,255,255,0.03);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .compliance-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        
+        .checklist-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .checklist-icon.fail {
+            color: var(--error);
+        }
+        
+        .checklist-icon.pass {
+            color: var(--success);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--dark-card) 0%, var(--dark-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+        
+        .cta-feature {
+            text-align: center;
+        }
+        
+        .cta-feature-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .cta-feature h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        
+        .cta-feature p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: var(--text-muted);
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .footer-section h4 {
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+        
+        .footer-section a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-purple);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 42px;
+            }
+            
+            h2 {
+                font-size: 36px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                padding: 32px 24px;
+            }
+            
+            .stat-number {
+                font-size: 48px;
+            }
+            
+            .calculator-card {
+                padding: 32px 24px;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+            }
+            
+            .timeline-item::before {
+                left: 19px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <div class="container">
+            <div class="alert-content">
+                <strong>Spring Boot 2.7 Reached End of Life:</strong>
+                <span class="counter-inline">
+                    <span id="days-counter">426</span> days without security patches
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">HeroDevs</a>
+            <a href="#pricing" class="btn-secondary" style="padding: 12px 24px; font-size: 14px;">Talk to Sales</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="eol-badge">
+                    <span class="status-dot"></span>
+                    End of Life
+                </div>
+                <h1>Spring Boot 2.7<br><span class="eol-date">Went EOL November 24, 2023</span></h1>
+                <p>Still running 2.7? You're not alone—37% of production Spring apps are still on 2.x.<br>But that doesn't make it safe.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="days-stat">426</span>
+                        <span class="stat-label">Days Past EOL</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Unpatched CVEs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Critical Risk</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">High Risk</span>
+                    </div>
+                </div>
+                
+                <div class="cta-group" style="margin-top: 48px;">
+                    <a href="#calculator" class="btn-primary">
+                        Calculate My Risk
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#solution" class="btn-secondary">See the Solution</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Calculator -->
+    <section id="calculator" class="risk-calculator">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Calculate Your Exposure</div>
+                <h2>How Vulnerable Is Your Application?</h2>
+                <p class="section-subtitle">See exactly what risks you're facing and what it would cost to stay unpatched</p>
+            </div>
+            
+            <div class="calculator-card">
+                <div class="calculator-input">
+                    <label for="spring-version">Which Spring Boot version are you running?</label>
+                    <select id="spring-version">
+                        <option value="">Select your version...</option>
+                        <option value="2.7">Spring Boot 2.7.x (EOL Nov 2023)</option>
+                        <option value="2.6">Spring Boot 2.6.x (EOL May 2023)</option>
+                        <option value="2.5">Spring Boot 2.5.x (EOL Nov 2022)</option>
+                        <option value="2.4">Spring Boot 2.4.x (EOL May 2022)</option>
+                        <option value="2.3">Spring Boot 2.3.x (EOL Nov 2021)</option>
+                    </select>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateRisk()">Calculate My Risk</button>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-item">
+                        <span class="result-icon">⏱️</span>
+                        <div class="result-content">
+                            <div class="result-label">Time Past EOL</div>
+                            <div class="result-value critical" id="time-past">426 days</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-icon">🚨</span>
+                        <div class="result-content">
+                            <div class="result-label">Unpatched CVEs in Your Version</div>
+                            <div class="result-value critical" id="cve-count">8 critical vulnerabilities</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-icon">💰</span>
+                        <div class="result-content">
+                            <div class="result-label">Estimated Compliance Exposure</div>
+                            <div class="result-value" id="exposure">$450,000 per audit failure</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-icon">⚠️</span>
+                        <div class="result-content">
+                            <div class="result-label">Average Breach Discovery Time</div>
+                            <div class="result-value" id="breach-time">212 days</div>
+                        </div>
+                    </div>
+                    
+                    <div class="with-nes">
+                        <h4>✓ With NES for Spring Boot</h4>
+                        <ul>
+                            <li><span>✓</span> All 8 CVEs patched in your current version</li>
+                            <li><span>✓</span> No migration to Spring Boot 3.x required</li>
+                            <li><span>✓</span> Same Java 8 compatibility</li>
+                            <li><span>✓</span> Zero code changes</li>
+                            <li><span>✓</span> Deploy in 15 minutes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CVE Timeline -->
+    <section class="cve-timeline">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">The Risk Keeps Growing</div>
+                <h2>Every CVE Since Spring Boot 2.7 Hit EOL</h2>
+                <p class="section-subtitle">New vulnerabilities are discovered regularly. Without patches, you're exposed to every single one.</p>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-date">Nov 2023</div>
+                    <div class="timeline-marker">⚠️</div>
+                    <div class="timeline-content">
+                        <h4>Spring Boot 2.7 EOL</h4>
+                        <p>End of official open source support. No more security patches from the Spring team.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Feb 2024</div>
+                    <div class="timeline-marker">🔴</div>
+                    <div class="timeline-content">
+                        <h4>CVE-2024-38821 <span class="cve-severity critical">Critical</span></h4>
+                        <p>Authentication bypass vulnerability affecting role-based access control mechanisms. Allows unauthorized users to gain elevated privileges.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">May 2024</div>
+                    <div class="timeline-marker">🔴</div>
+                    <div class="timeline-content">
+                        <h4>CVE-2024-38820 <span class="cve-severity critical">Critical</span></h4>
+                        <p>Deserialization flaw enabling remote code execution. Attackers can gain full control over affected systems.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Aug 2024</div>
+                    <div class="timeline-marker">⚠️</div>
+                    <div class="timeline-content">
+                        <h4>CVE-2024-38807 <span class="cve-severity high">High</span></h4>
+                        <p>Security weakness in spring-boot-loader allowing malicious modifications to application packaging and execution.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 2024</div>
+                    <div class="timeline-marker">⚠️</div>
+                    <div class="timeline-content">
+                        <h4>CVE-2024-38827 <span class="cve-severity high">High</span></h4>
+                        <p>Broken access control vulnerability allowing privilege escalation. Users can access resources beyond their authorization level.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 2024</div>
+                    <div class="timeline-marker">⚠️</div>
+                    <div class="timeline-content">
+                        <h4>CVE-2024-38829 <span class="cve-severity high">High</span></h4>
+                        <p>Session fixation vulnerability enabling authenticated session hijacking under load conditions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reality Check -->
+    <section id="solution" class="reality-check">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Migration vs. Securing in Place</div>
+                <h2>The Migration Trap</h2>
+                <p class="section-subtitle">"Just upgrade to Spring Boot 3" sounds simple. Here's the reality.</p>
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card upgrade">
+                    <h3>❌ Upgrade to Spring Boot 3.x</h3>
+                    <ul class="comparison-list">
+                        <li>
+                            <span class="comparison-icon">⏱️</span>
+                            <span><strong>3-6 months</strong> typical timeline (planning, dev, testing)</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">💰</span>
+                            <span><strong>$180K-$450K</strong> average cost including dev time & testing</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">☕</span>
+                            <span><strong>Java 17 minimum</strong> (you're on Java 8)</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">📦</span>
+                            <span><strong>Jakarta EE migration</strong> (javax → jakarta namespace changes)</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">🔧</span>
+                            <span><strong>55+ dependency upgrades</strong> with potential breaking changes</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">🔐</span>
+                            <span><strong>Spring Security 6 rewrites</strong> required</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">⚠️</span>
+                            <span><strong>Meanwhile:</strong> Your CVEs aren't waiting</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card nes">
+                    <h3>✓ Secure Spring Boot 2.7 in Place</h3>
+                    <ul class="comparison-list">
+                        <li>
+                            <span class="comparison-icon">⚡</span>
+                            <span><strong>15 minutes</strong> to deploy (Maven/Gradle dependency swap)</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">💵</span>
+                            <span><strong>Starting at $499/mo</strong> per application</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">☕</span>
+                            <span><strong>Stay on Java 8</strong> (or 11, whatever you're using)</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">📦</span>
+                            <span><strong>No code changes</strong> - drop-in replacement</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">🔧</span>
+                            <span><strong>Same dependencies</strong> - nothing breaks</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">🔐</span>
+                            <span><strong>All security patches</strong> backported to 2.7</span>
+                        </li>
+                        <li>
+                            <span class="comparison-icon">✅</span>
+                            <span><strong>Secure today,</strong> migrate on YOUR timeline</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compliance Section -->
+    <section class="compliance-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Compliance Reality</div>
+                <h2>The Questions Your Auditors Will Ask</h2>
+                <p class="section-subtitle">One "No" = Audit Finding. Three Findings = Failed Audit. Failed Audit = Lost Deals.</p>
+            </div>
+            
+            <div class="compliance-grid">
+                <div class="compliance-card">
+                    <h4>SOC 2 Audit</h4>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>All EOL software remediated or on exception list?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Documented risk acceptance for unpatched CVEs?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Patching SLA met for Critical/High vulnerabilities?</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="compliance-card">
+                    <h4>ISO 27001</h4>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Asset inventory includes EOL software tracking?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Compensating controls documented and tested?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Vulnerability management policy followed?</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="compliance-card">
+                    <h4>PCI-DSS</h4>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>All systems patched within 30 days of CVE release?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>EOL software isolated from cardholder data?</span>
+                        </li>
+                        <li>
+                            <span class="checklist-icon fail">❌</span>
+                            <span>Security controls compensate for unsupported versions?</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: var(--success); font-size: 24px; margin-bottom: 16px;">✓ With NES for Spring Boot</h3>
+                <p style="color: var(--text-light); font-size: 18px;">Check every box. Pass every audit.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="pricing" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Secure Spring Boot 2.7 Today</h2>
+                <p>Get immediate security patches without the migration headache. Stay compliant while you plan your upgrade on YOUR timeline.</p>
+                
+                <div class="cta-features">
+                    <div class="cta-feature">
+                        <span class="cta-feature-icon">⚡</span>
+                        <h4>15-Minute Deploy</h4>
+                        <p>Maven/Gradle swap</p>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="cta-feature-icon">🔒</span>
+                        <h4>All CVEs Patched</h4>
+                        <p>Backported to 2.7</p>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="cta-feature-icon">☕</span>
+                        <h4>Same Java Version</h4>
+                        <p>No forced upgrades</p>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="cta-feature-icon">✅</span>
+                        <h4>Pass Audits</h4>
+                        <p>SOC 2, ISO, PCI ready</p>
+                    </div>
+                </div>
+                
+                <div class="cta-group" style="margin-top: 48px;">
+                    <a href="#" class="btn-primary" style="font-size: 20px; padding: 20px 40px;">
+                        Get Pricing
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn-secondary" style="font-size: 20px; padding: 20px 40px;">Talk to Sales</a>
+                </div>
+                
+                <p style="margin-top: 32px; color: var(--text-muted);">🛡️ 30-day money-back guarantee • SOC 2 Type II certified • Used by Fortune 500</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <a href="#">Spring Boot NES</a>
+                    <a href="#">Spring Framework NES</a>
+                    <a href="#">All NES Products</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">Vulnerability Directory</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Case Studies</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Partners</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Security</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 HeroDevs. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calculate days since EOL (Nov 24, 2023)
+        function updateDaysCounter() {
+            const eolDate = new Date('2023-11-24');
+            const today = new Date();
+            const diffTime = Math.abs(today - eolDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('days-counter').textContent = diffDays;
+            document.getElementById('days-stat').textContent = diffDays;
+        }
+        
+        // Risk calculator
+        function calculateRisk() {
+            const version = document.getElementById('spring-version').value;
+            const results = document.getElementById('results');
+            
+            if (!version) {
+                alert('Please select your Spring Boot version');
+                return;
+            }
+            
+            const risks = {
+                '2.7': { days: 426, cves: 8, exposure: '$450,000', breach: '212 days' },
+                '2.6': { days: 580, cves: 12, exposure: '$520,000', breach: '198 days' },
+                '2.5': { days: 790, cves: 18, exposure: '$620,000', breach: '185 days' },
+                '2.4': { days: 970, cves: 24, exposure: '$720,000', breach: '170 days' },
+                '2.3': { days: 1150, cves: 31, exposure: '$850,000', breach: '155 days' }
+            };
+            
+            const risk = risks[version];
+            
+            document.getElementById('time-past').textContent = risk.days + ' days';
+            document.getElementById('cve-count').textContent = risk.cves + ' critical vulnerabilities';
+            document.getElementById('exposure').textContent = risk.exposure + ' per audit failure';
+            document.getElementById('breach-time').textContent = risk.breach;
+            
+            results.classList.add('show');
+            results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Update counter on page load
+        updateDaysCounter();
+    </script>
+</body>
+</html>
