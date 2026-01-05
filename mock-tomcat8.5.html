@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE-2025-24813 Timeline | Apache Tomcat Vulnerability</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-card-hover: #1f2937;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #22d3ee;
+            --accent-tertiary: #67e8f9;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2d3748;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --info: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Animated background grid */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .cve-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .cve-badge::before {
+            content: '⚠';
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .stat-value.critical {
+            color: var(--danger);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent, 
+                var(--accent-primary) 5%, 
+                var(--accent-primary) 95%, 
+                transparent);
+        }
+
+        @media (max-width: 900px) {
+            .timeline::before {
+                left: 20px;
+            }
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 0 3rem 3rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        @media (max-width: 900px) {
+            .timeline-item,
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                width: 100%;
+                left: 0;
+                padding-left: 50px;
+                padding-right: 1rem;
+                text-align: left;
+            }
+        }
+
+        .timeline-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-primary);
+            border: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            top: 0;
+            z-index: 2;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-marker {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-marker {
+            left: -10px;
+        }
+
+        @media (max-width: 900px) {
+            .timeline-item .timeline-marker,
+            .timeline-item:nth-child(odd) .timeline-marker,
+            .timeline-item:nth-child(even) .timeline-marker {
+                left: 10px;
+                right: auto;
+            }
+        }
+
+        .timeline-item:hover .timeline-marker {
+            transform: scale(1.3);
+            background: var(--accent-primary);
+        }
+
+        .timeline-marker.critical {
+            border-color: var(--danger);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .timeline-marker.warning {
+            border-color: var(--warning);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .timeline-marker.success {
+            border-color: var(--success);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .timeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .timeline-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.15);
+        }
+
+        .timeline-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .timeline-summary {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Expandable Details */
+        .timeline-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin 0.3s ease;
+        }
+
+        .timeline-card.expanded .timeline-details {
+            max-height: 1000px;
+            margin-top: 1rem;
+        }
+
+        .details-content {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .detail-section {
+            margin-bottom: 1rem;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .detail-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .source-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--bg-secondary);
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .source-link:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .source-link::before {
+            content: '↗';
+            font-size: 0.7rem;
+        }
+
+        .expand-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .timeline-card:hover .expand-hint {
+            color: var(--accent-primary);
+        }
+
+        .expand-icon {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon::after {
+            content: '+';
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .timeline-card.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Phase Labels */
+        .phase-label {
+            text-align: center;
+            padding: 1rem 0 2rem;
+            position: relative;
+        }
+
+        .phase-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-secondary);
+        }
+
+        /* Key Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(34, 211, 238, 0.05));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-box h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            color: var(--accent-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .insight-box h3::before {
+            content: '💡';
+        }
+
+        .insight-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .insight-box code {
+            background: var(--bg-secondary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-tertiary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Vendor Comparison Section */
+        .comparison-section {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .comparison-section h2::before {
+            content: '📊';
+        }
+
+        .comparison-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .vendor-row {
+            display: grid;
+            grid-template-columns: 140px 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .vendor-row:hover {
+            background: var(--bg-card-hover);
+        }
+
+        @media (max-width: 700px) {
+            .vendor-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .vendor-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .vendor-severity {
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .vendor-severity.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .vendor-severity.high {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .vendor-severity.important {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--info);
+        }
+
+        .vendor-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-item {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.15s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.25s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.35s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.45s; }
+        .timeline-item:nth-child(9) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(10) { animation-delay: 0.55s; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <div class="container">
+        <header class="hero">
+            <div class="cve-badge">CVE-2025-24813</div>
+            <h1>Apache Tomcat Vulnerability Timeline</h1>
+            <p class="subtitle">Path Equivalence vulnerability enabling Remote Code Execution via partial PUT requests in the Default Servlet</p>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value critical">9.8</div>
+                    <div class="stat-label">CVSS Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">30h</div>
+                    <div class="stat-label">Time to Exploit</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">125K+</div>
+                    <div class="stat-label">Attack Attempts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">6.6M</div>
+                    <div class="stat-label">Exposed Instances</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="insight-box">
+            <h3>Critical Configuration Requirement</h3>
+            <p>This vulnerability <strong>only affects systems</strong> where <code>readonly="false"</code> is set on the Default Servlet. The default Tomcat configuration has writes disabled, meaning most default installations are <strong>not vulnerable</strong>.</p>
+        </div>
+
+        <section class="timeline">
+            <div class="phase-label">
+                <span class="phase-tag">Discovery & Silent Patch</span>
+            </div>
+
+            <!-- Jan 13, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 January 13, 2025</div>
+                    <h3 class="timeline-title">Vulnerability Privately Reported</h3>
+                    <p class="timeline-summary">Apache Tomcat security team receives private report of a vulnerability involving partial HTTP PUT requests and the default file servlet.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Technical Details</div>
+                                <p class="detail-text">The flaw was identified as affecting Tomcat's file upload handling when writes are enabled (non-default configuration). The vulnerability allows path equivalence exploitation where filenames containing internal dots can bypass security checks.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://tomcat.apache.org/security-11.html" class="source-link" target="_blank">Apache Tomcat 11 Security</a>
+                                    <a href="https://tomcat.apache.org/security-9.html" class="source-link" target="_blank">Apache Tomcat 9 Security</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- Feb 10, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker success"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 February 10, 2025</div>
+                    <h3 class="timeline-title">Silent Patch Released</h3>
+                    <p class="timeline-summary">Apache quietly releases Tomcat 9.0.99, 10.1.35, and 11.0.3 with the fix included — one month before public disclosure.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Fixed Versions</div>
+                                <p class="detail-text">Tomcat 9.0.99, 10.1.35, and 11.0.3 contain the security fix. Organizations who routinely updated to latest versions were protected before the vulnerability became public knowledge.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://tomcat.apache.org/security-9.html" class="source-link" target="_blank">Tomcat 9 Security Page</a>
+                                    <a href="https://tomcat.apache.org/security-10.html" class="source-link" target="_blank">Tomcat 10 Security Page</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <div class="phase-label">
+                <span class="phase-tag">Public Disclosure</span>
+            </div>
+
+            <!-- Mar 10, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker critical"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 March 10, 2025</div>
+                    <h3 class="timeline-title">CVE-2025-24813 Publicly Disclosed</h3>
+                    <p class="timeline-summary">Apache publicly discloses the vulnerability via the OSS security mailing list, rated "Important" with potential for RCE and information disclosure.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Affected Versions</div>
+                                <p class="detail-text"><strong>Tomcat 11:</strong> 11.0.0-M1 to 11.0.2<br>
+                                <strong>Tomcat 10:</strong> 10.1.0-M1 to 10.1.34<br>
+                                <strong>Tomcat 9:</strong> 9.0.0.M1 to 9.0.98<br>
+                                <strong>Note:</strong> Tomcat 8.5 and earlier (EOL) also affected but not listed in official advisory.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Discovery Credits</div>
+                                <p class="detail-text">COSCO Shipping Lines DIC (information disclosure aspect) and researcher "sw0rd1ight" (RCE aspect).</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.mail-archive.com/search?l=announce%40apache.org&q=from:%22Mark+Thomas%22&o=newest&f=1" class="source-link" target="_blank">Apache Mailing List</a>
+                                    <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-24813" class="source-link" target="_blank">NVD Entry</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- Mar 10-12, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker warning"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 March 10–12, 2025</div>
+                    <h3 class="timeline-title">Initial Media Coverage & Alerts</h3>
+                    <p class="timeline-summary">Security vendors and media report on the vulnerability. Canadian Cyber Centre issues an alert on the same day as disclosure.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Response Actions</div>
+                                <p class="detail-text">The Register and BleepingComputer report that the flaw is being exploited in the wild. Government agencies begin issuing guidance. Debian releases a fix on March 11 — just one day after disclosure.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.cyber.gc.ca/en/alerts-advisories/vulnerability-impacting-apache-tomcat-cve-2025-24813" class="source-link" target="_blank">Canadian Cyber Centre</a>
+                                    <a href="https://www.wiz.io/vulnerability-database/cve/cve-2025-24813" class="source-link" target="_blank">Wiz Analysis</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- Mar 13-14, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker critical"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 March 13–14, 2025</div>
+                    <h3 class="timeline-title">PoC Exploits & Active Attacks Begin</h3>
+                    <p class="timeline-summary">Within 30 hours of disclosure, proof-of-concept exploits appear publicly. Mass scanning and exploit attempts begin immediately.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Exploitation Method</div>
+                                <p class="detail-text">Two-step attack: Attacker uploads a JSP webshell via partial PUT, then triggers it via a crafted request using JSESSIONID. The exploit bypasses traditional security filters with ease.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Threat Intelligence</div>
+                                <p class="detail-text">Sonatype reports active attacks within 30 hours. GreyNoise and Recorded Future confirm a spike in internet-wide scanning for vulnerable servers.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.sonatype.com/blog/apache-tomcat-vulnerability-widespread-exploitation-and-key-insights-from-sonatype" class="source-link" target="_blank">Sonatype Blog</a>
+                                    <a href="https://cyrisk.com/security/cve-2025-24813-critical-rce/" class="source-link" target="_blank">CyRisk Analysis</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <div class="phase-label">
+                <span class="phase-tag">Vendor Response</span>
+            </div>
+
+            <!-- Mid/Late Mar 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 March 19–26, 2025</div>
+                    <h3 class="timeline-title">Security Vendor Analysis Published</h3>
+                    <p class="timeline-summary">Rapid7, Akamai, Wiz, and Sonatype publish detailed analyses. Rapid7 finds some of Apache's stated prerequisites were overstated.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Key Findings</div>
+                                <p class="detail-text"><strong>Rapid7 (Mar 19):</strong> Notes "no need to panic" as widespread exploitation unconfirmed. Tested shows some listed conditions unnecessary for exploitation.<br><br>
+                                <strong>Akamai (Mar 20):</strong> Releases detection/mitigation guidance.<br><br>
+                                <strong>Sonatype (Mar 26):</strong> Reports ~100,000 downloads of vulnerable Tomcat artifacts from Maven Central post-disclosure.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.rapid7.com/blog/post/2025/03/19/etr-apache-tomcat-cve-2025-24813-what-you-need-to-know/" class="source-link" target="_blank">Rapid7 Blog</a>
+                                    <a href="https://www.akamai.com/blog/security-research/march-apache-tomcat-path-equivalence-traffic-detections-mitigations" class="source-link" target="_blank">Akamai Blog</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- Apr 1, 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker critical"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 April 1, 2025</div>
+                    <h3 class="timeline-title">CISA Adds to KEV Catalog</h3>
+                    <p class="timeline-summary">CISA adds CVE-2025-24813 to its Known Exploited Vulnerabilities catalog. Federal agencies given April 22 deadline to patch.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">CISA Directive</div>
+                                <p class="detail-text">U.S. Federal agencies mandated to apply patches or mitigations by April 22, 2025. The KEV entry titles it "Apache Tomcat Path Equivalence Vulnerability."</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Same Day: Amazon Response</div>
+                                <p class="detail-text">Amazon AWS publishes ALAS-2025-2812 providing fixed Tomcat packages for Amazon Linux 2.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.keysight.com/blogs/en/tech/nwvs/2025/05/07/cve-2025-24813" class="source-link" target="_blank">Keysight Analysis</a>
+                                    <a href="https://alas.aws.amazon.com/alas2.html" class="source-link" target="_blank">Amazon Linux Advisories</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- Early Apr 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker success"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 Early April 2025</div>
+                    <h3 class="timeline-title">Enterprise Vendor Patches Released</h3>
+                    <p class="timeline-summary">Red Hat, Amazon, SUSE, and enterprise vendors release patches. Most emphasize default configurations are not vulnerable.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Vendor Responses</div>
+                                <p class="detail-text"><strong>Red Hat:</strong> RHSA-2025:3645-3647 for JBoss Web Server 5 and RHEL. Rated "Important" (CVSS 8.6).<br><br>
+                                <strong>Amazon:</strong> Fixed packages for Amazon Linux 2 by April 1.<br><br>
+                                <strong>SUSE:</strong> Rated High (~8.1 CVSS).<br><br>
+                                <strong>Atlassian, Esri, SAS:</strong> Released bulletins noting out-of-the-box products not vulnerable.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://access.redhat.com/security/cve/cve-2025-24813" class="source-link" target="_blank">Red Hat CVE</a>
+                                    <a href="https://explore.alas.aws.amazon.com/CVE-2025-24813.html" class="source-link" target="_blank">Amazon CVE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <div class="phase-label">
+                <span class="phase-tag">Extended Analysis</span>
+            </div>
+
+            <!-- May 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 May 7, 2025</div>
+                    <h3 class="timeline-title">Keysight Publishes Detailed Exploit Walkthrough</h3>
+                    <p class="timeline-summary">Keysight researchers publish step-by-step exploitation demo using malicious serialized payload and JSESSIONID trick.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Technical Deep Dive</div>
+                                <p class="detail-text">Root cause analysis shows vulnerability in how partial PUT generates temp filenames. Attackers can overwrite session files on disk, then trigger deserialization via crafted session cookie.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://www.keysight.com/blogs/en/tech/nwvs/2025/05/07/cve-2025-24813" class="source-link" target="_blank">Keysight Blog</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+
+            <!-- July 2025 -->
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card" onclick="toggleCard(this)">
+                    <div class="timeline-date">📅 July 3, 2025</div>
+                    <h3 class="timeline-title">Unit 42 Reports 125K+ Attack Attempts</h3>
+                    <p class="timeline-summary">Palo Alto's Unit 42 reports 125,856 exploit attempts blocked in March 2025 alone, confirming mass scanning immediately after disclosure.</p>
+                    
+                    <div class="timeline-details">
+                        <div class="details-content">
+                            <div class="detail-section">
+                                <div class="detail-label">Attack Statistics</div>
+                                <p class="detail-text">Unit 42's telemetry shows massive exploitation attempts right after disclosure. Report validates RCE is achievable by overwriting session files on disk via partial PUT.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Ongoing Status</div>
+                                <p class="detail-text">Most exploitation traffic appears "opportunistic" using public PoCs by low-sophistication actors. No major confirmed breaches attributed specifically to this CVE.</p>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Sources</div>
+                                <div class="source-links">
+                                    <a href="https://unit42.paloaltonetworks.com/apache-cve-2025-24813-cve-2025-27636-cve-2025-29891/" class="source-link" target="_blank">Unit 42 Report</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expand-hint"><span class="expand-icon"></span> Click for details</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vendor Comparison -->
+        <section class="comparison-section">
+            <h2>Vendor Severity Comparison</h2>
+            <p class="timeline-summary">Different vendors rated the severity differently based on their interpretation of default configurations and real-world exploitability.</p>
+            
+            <div class="comparison-grid">
+                <div class="vendor-row">
+                    <span class="vendor-name">NVD / CISA</span>
+                    <span class="vendor-note">CVSS 9.8–10.0, Critical path equivalence vulnerability</span>
+                    <span class="vendor-severity critical">Critical</span>
+                </div>
+                <div class="vendor-row">
+                    <span class="vendor-name">Apache</span>
+                    <span class="vendor-note">Rated "Important" — requires non-default settings</span>
+                    <span class="vendor-severity important">Important</span>
+                </div>
+                <div class="vendor-row">
+                    <span class="vendor-name">Red Hat</span>
+                    <span class="vendor-note">CVSS 8.6 — default config not vulnerable</span>
+                    <span class="vendor-severity high">High</span>
+                </div>
+                <div class="vendor-row">
+                    <span class="vendor-name">SUSE</span>
+                    <span class="vendor-note">CVSS ~8.1 — exploitation requires config changes</span>
+                    <span class="vendor-severity high">High</span>
+                </div>
+                <div class="vendor-row">
+                    <span class="vendor-name">Wiz</span>
+                    <span class="vendor-note">CVSS 9.8, EPSS 94% exploitation probability</span>
+                    <span class="vendor-severity critical">Critical</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="insight-box" style="margin-top: 3rem;">
+            <h3>EOL Versions: The Forgotten Risk</h3>
+            <p>While Apache's official advisory focused on supported versions (9.x, 10.x, 11.x), the vulnerable code exists in <strong>Tomcat 8.5.x and 7.x</strong> as well. NVD lists 8.5.0–8.5.100 as affected. Organizations running EOL versions must upgrade or rely on third-party support providers like <a href="https://www.herodevs.com/vulnerability-directory/cve-2025-24813" style="color: var(--accent-primary);">HeroDevs NES</a> for patched builds.</p>
+        </div>
+
+        <footer>
+            <p>Timeline data compiled from Apache, NVD, CISA, and security vendor reports.</p>
+            <p style="margin-top: 0.5rem;">For EOL software support, visit <a href="https://www.herodevs.com">HeroDevs</a></p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleCard(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
